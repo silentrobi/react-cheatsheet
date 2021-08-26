@@ -141,12 +141,50 @@ function App() {
                   <h1>Counter: {counter}</h1>
                   <button 
                         onClick={dispatch(increment())} {// increment is action method}
-                  >+</button
+                  >+</button>
             </div>
       );
 }
 ```
+**Pass paramter(s) to action method example**
+```js
+//changing increment action method
+const increment = (number) => { 
+      return {
+          type: 'INCREMENT',
+          payload: number
+      }
+};
 
+//changing reducer method as well
+
+const counterReducer = (state=0, action) =>{
+    switch(action.type){
+        case 'INCREMENT':
+            return state + action.payload;
+        case  'DECREMENT':
+            return state - 1;
+        default:
+            return state;
+    }
+};
+
+/* UPDATE counter state by payload*/
+import { useDispatch } from 'react-redux';
+
+function App() {
+      const counter = useSelector(state => state.counterReducer); // useSelector() has access to all store reducers.
+      const dispatch = useDispatch();
+      return (
+            <div>
+                  <h1>Counter: {counter}</h1>
+                  <button 
+                        onClick={dispatch(increment(5))} {// increment is action method by 5. Here 5 is the payload}
+                  >+</button>
+            </div>
+      );
+}
+```
 **Redux devtool extension**
 
 link ---> https://github.com/reduxjs/redux-devtools 
