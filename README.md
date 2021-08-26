@@ -134,7 +134,8 @@ function App() {
 import { useDispatch } from 'react-redux';
 
 function App() {
-      const counter = useSelector(state => state.counterReducer) // useSelector() has access to all store reducers.
+      const counter = useSelector(state => state.counterReducer); // useSelector() has access to all store reducers.
+      const dispatch = useDispatch();
       return (
             <div>
                   <h1>Counter: {counter}</h1>
