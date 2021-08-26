@@ -53,7 +53,22 @@ store.dispatch(increment()); //calling action method increment
 
 ```js
 
-import { createStore, combineReducer } from 'react-redux'
+import { createStore, combineReducer, Provider } from 'react-redux'
+
+/* ACTIONS*/
+
+//ACTION INCREMENT
+const increment = () =>{ 
+      return {
+          type: 'INCREMENT'
+      }
+};
+//ACTION DECREMENT
+const decrement = () =>{ 
+      return {
+          type: 'DECREMENT'
+      }
+};
 
 /*REDUCERS*/
 
@@ -81,6 +96,7 @@ const loggerReducer = (state=false, action) =>{
 }
 
 /*STORE*/
+
 // To connect multiple reducers use the following methods
 
 //First combine the reducers
@@ -92,8 +108,47 @@ const allReducers = combineReducer({
 
 const store = createStore(allReducers);
 
+
+/*PASS `**store** object` TO REACT APP*/
+
+ReactDOM.render(
+      <Provider store={store}>
+            <App/>
+      </Provider>,
+      document.getElementById('root')
+);
+
+/*Display counter state in react app*/
+import { useSelector } from 'react-redux';
+
+function App() {
+      const counter = useSelector(state => state.counterReducer) // have access to all store reducers.
+      return (
+            <div>
+                  <h1>Counter: {counter}</h1>
+            </div>
+      );
+}
+
+/* UPDATE counter state*/
+import { useDispatch } from 'react-redux';
+
+function App() {
+      const counter = useSelector(state => state.counterReducer) // useSelector() has access to all store reducers.
+      return (
+            <div>
+                  <h1>Counter: {counter}</h1>
+                  <button 
+                        onClick={dispatch(increment())} {// increment is action method}
+                  >+</button
+            </div>
+      );
+}
 ```
 
+**Redux devtool extension**
+
+link ---> https://github.com/reduxjs/redux-devtools 
 
 
 
