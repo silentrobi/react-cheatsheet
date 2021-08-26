@@ -7,8 +7,9 @@
 - **REDUCER:** Describes how action transforms the state into next state. It checks which action is called and based on the action name, it modifies state related to that.
 - **DISPATCH:** Execute the action means sending action to reducer and reducer executes the logic to change the state.
 
-**Example 1**
+**Basic React Redux Example**
 ```js
+import { createStore } from 'react-redux'
 /*ACTIONS*/
 
 //ACTION INCREMENT
@@ -47,4 +48,62 @@ store.subscribe(() => console.log(store.getState());
 /*DISPATCH*/
 store.dispatch(increment()); //calling action method increment 
 ```
+
+**Working with more than one `reducer` example**
+
+```js
+
+import { createStore, combineReducer } from 'react-redux'
+
+/*REDUCERS*/
+
+//REDUCER counterReducer
+const counterReducer = (state=0, action) =>{
+    switch(action.type){
+        case 'INCREMENT':
+            return state + 1;
+        case  'DECREMENT':
+            return state - 1;
+        default:
+            return state;
+    }
+};
+
+//REDUCER loggedReducer
+
+const loggerReducer = (state=false, action) =>{
+     switch(action.type){
+        case 'SIGN_IN':
+            return !state;
+        default:
+            return state;
+    }
+}
+
+/*STORE*/
+// To connect multiple reducers use the following methods
+
+//First combine the reducers
+
+const allReducers = combineReducer({
+      counterReducer,
+      loggedReducer
+});
+
+const store = createStore(allReducers);
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
