@@ -122,7 +122,7 @@ ReactDOM.render(
 import { useSelector } from 'react-redux';
 
 function App() {
-      const counter = useSelector(state => state.counterReducer) // have access to all store reducers.
+      const counter = useSelector(state => state.counterReducer) {/* useSelector() has access to all store reducers. */}
       return (
             <div>
                   <h1>Counter: {counter}</h1>
@@ -134,13 +134,13 @@ function App() {
 import { useDispatch } from 'react-redux';
 
 function App() {
-      const counter = useSelector(state => state.counterReducer); // useSelector() has access to all store reducers.
+      const counter = useSelector(state => state.counterReducer); {/* useSelector() has access to all store reducers. */}
       const dispatch = useDispatch();
       return (
             <div>
                   <h1>Counter: {counter}</h1>
                   <button 
-                        onClick={dispatch(increment())} {// increment is action method}
+                        onClick={dispatch(increment())} {/* increment is action method */}
                   >+</button>
             </div>
       );
@@ -184,6 +184,83 @@ function App() {
             </div>
       );
 }
+```
+
+## Use of `connect()` HOC
+**Usecase:** Changing a state in one component should update the same state in another component.
+**Solution:** Wrap both components with connect() HOC and pass same `mapDispatchToProps` and `mapStatetoProps`.
+Another way to pass redux store is by using `connect` HOC. The connect() function connects a React component to a Redux store.
+It provides its connected component with the pieces of the data it needs from the store, and the functions it can use to dispatch actions to the store. 
+**Example to use `connect`**
+
+```js
+const increment = (number) => { 
+      return {
+          type: 'INCREMENT',
+          payload: number
+      }
+};
+const increment = (number) => { 
+      return {
+          type: 'DECREMENT',
+          payload: number
+      }
+};
+
+const counterReducer = (state=0, action) =>{
+    switch(action.type){
+        case 'INCREMENT':
+            return state + action.payload;
+        case  'DECREMENT':
+            return state - 1;
+        default:
+            return state;
+    }
+};
+
+// counter state will be passed to App component as props
+const mapStatetoProps= (state) => ({
+      counter: state.counterReducer   // return counter value in each state change
+});
+
+//increment and decrement dispatch methods will be passed to App component as props
+const mapDispatchToProps = (dispatch) =>({
+      actions:{
+            increment: (payload) => {
+                  dispatch(increment(payload))
+            },
+            decrement: (payload) => {
+                  dispatch(decrement(payload))
+            }
+      }
+});
+
+//Wraping child component with connect() and passing only mapDispatchToProps. The reason is we don't to display counter value in child component.
+const Child = connect(null, mapDispatchToProps)(props){
+ const {actions} = props;
+      return (
+            <div>
+                  <button 
+                        onClick={actions.decrement(1)} {/* decrement is action method by 1. Here 1 is the payload */}
+                  >-</button>
+            </div>
+      );
+}
+
+function App(props) {
+      const {counter, actions} = props;
+      return (
+            <div>
+                  <h1>Counter: {counter}</h1>
+                  <button 
+                        onClick={actions.increment(5)} {/* increment is action method by 5. Here 5 is the payload */}
+                  >+</button>
+                  <Child/> {/*Child component will control decrement of the counter value */}
+            </div>
+      );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App); // wraping App component with connect() HOC
 ```
 **Redux devtool extension**
 
