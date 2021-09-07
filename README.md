@@ -265,6 +265,56 @@ function App(props) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(App); // wraping App component with connect() HOC
 ```
+## Redux-Saga
+
+**Redux Saga** is a middleware that takes over the control of you `actions` before reaching the `reducers` directly. Basically, It  is the alternative approach to the organization of **side effects**. 
+**Note:** **side effects** means API requests to backend service. Calls to authentication service etc.
+
+Original Working without redux saga:-
+
+`Action(s) → Reducer(s)`
+
+With Redux saga as middleware:-
+
+`Action(s) → Redux Saga → Reducer(s)`
+
+**Example usecase:**
+CRUD operations in blog post
+```js
+/* ACTIONS */
+
+const getPosts = () => {
+  return {
+    type: GET_PRODUCTS,
+  };
+};
+
+const addPost = (data) => {
+  return {
+    type: 'ADD_POST',
+    payload: data
+  };
+};
+
+const updatePost = (data) => {
+  return {
+    type: 'UPDATE_POST',
+    payload: data
+  };
+};
+
+const deletePOST = (id) => {
+  return {
+    type: 'DELETE_POST',
+    payload: id
+  };
+};
+
+
+
+```
+
+
 **Redux devtool extension**
 
 link ---> https://github.com/reduxjs/redux-devtools 
