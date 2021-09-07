@@ -203,7 +203,7 @@ const increment = (number) => {
           payload: number
       }
 };
-const increment = (number) => { 
+const decrement = (number) => { 
       return {
           type: 'DECREMENT',
           payload: number
