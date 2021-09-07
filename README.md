@@ -188,9 +188,12 @@ function App() {
 
 ## Use of `connect()` HOC
 **Usecase:** Changing a state in one component should update the same state in another component.
+
 **Solution:** Wrap both components with connect() HOC and pass same `mapDispatchToProps` and `mapStatetoProps`.
+
 Another way to pass redux store is by using `connect` HOC. The connect() function connects a React component to a Redux store.
 It provides its connected component with the pieces of the data it needs from the store, and the functions it can use to dispatch actions to the store. 
+
 **Example to use `connect`**
 
 ```js
